@@ -23,6 +23,12 @@
 보수를 보수합시다.  
 
 
+----------------------------------------------
+
+다행인건 민주당도 뭐가 없다는 것입니다. 민주당의 최선이 이재명이라면, 감이 오지 않습니까?
+그들이 가진건 40,50 운동권 세력, 2차 베이비 부머들의 쪽수 밖에 없습니다.
+하지만 그걸 가지고 나라를 운영하는 것은 무리일 것입니다.
+
 <!--
 **dasibosu/dasibosu** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
