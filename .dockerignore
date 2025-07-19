@@ -1,0 +1,40 @@
+# .dockerignore
+
+# Git 관련
+.git
+.gitignore
+README.md
+
+# Docker 관련
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# 개발 도구
+.vscode
+.idea
+*.swp
+*.swo
+
+# 로그 파일
+*.log
+
+# 임시 파일
+*.tmp
+*.temp
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Node.js (만약 사용한다면)
+node_modules
+npm-debug.log
+
+# Jekyll 관련 (만약 사용한다면)
+_site
+.sass-cache
+.jekyll-metadata
+Gemfile.lock

@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보수의 힘 - 한국 보수 커뮤니티</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 헤더 */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo::before {
+            content: "🇰🇷";
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* 메인 콘텐츠 */
+        main {
+            padding: 2rem 0;
+        }
+
+        .section-tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+
+        .tab-button.active {
+            background: #f8f9fa;
+            border-bottom-color: #2a5298;
+            color: #2a5298;
+        }
+
+        .tab-button:hover {
+            background: #f8f9fa;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-height: 500px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 게시글 카드 */
+        .post-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: white;
+            transition: box-shadow 0.3s;
+        }
+
+        .post-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2a5298;
+        }
+
+        .post-excerpt {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .post-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        /* 익명 게시판 스타일 */
+        .anon-post {
+            border-left: 4px solid #dc3545;
+            background: #fff5f5;
+        }
+
+        .anon-id {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+
+        /* 풍자 섹션 스타일 */
+        .meme-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .meme-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .meme-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0 25%, #e0e0e0 25%, #e0e0e0 50%, #f0f0f0 50%, #f0f0f0 75%, #e0e0e0 75%);
+            background-size: 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .meme-caption {
+            padding: 1rem;
+            font-weight: 500;
+        }
+
+        /* 댓글 섹션 */
+        .comments-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .comment-form {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0.75rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .comment-form button {
+            background: #2a5298;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .comment {
+            border-left: 3px solid #2a5298;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        /* 라이브 섹션 */
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            background: #dc3545;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .live-indicator::before {
+            content: "●";
+            margin-right: 0.25rem;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* 유튜브 임베드 */
+        .youtube-embed {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            margin: 1rem 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #666;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                justify-content: center;
+            }
+
+            .section-tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                text-align: center;
+            }
+
+            .post-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .meme-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 사이드바 */
+        .sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .sidebar h3 {
+            color: #2a5298;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .trending-list {
+            list-style: none;
+        }
+
+        .trending-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .trending-list a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .trending-list a:hover {
+            color: #2a5298;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">보수의 힘</div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">홈</a></li>
+                        <li><a href="#news">뉴스</a></li>
+                        <li><a href="#community">커뮤니티</a></li>
+                        <li><a href="#about">소개</a></li>
+                        <li><a href="#contact">문의</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="layout">
+                <div class="main-content">
+                    <div class="section-tabs">
+                        <button class="tab-button active" onclick="showTab('official')">
+                            📰 공식 보수 정론
+                        </button>
+                        <button class="tab-button" onclick="showTab('alternative')">
+                            🕵️ 야매 보수
+                        </button>
+                        <button class="tab-button" onclick="showTab('satire')">
+                            😄 풍자/그림
+                        </button>
+                        <button class="tab-button" onclick="showTab('anonymous')">
+                            💬 익명 게시판
+                        </button>
+                    </div>
+
+                    <!-- 공식 보수 정론 -->
+                    <div id="official" class="tab-content active">
+                        <h2>📰 공식 보수 정론</h2>
+                        <p style="margin-bottom: 2rem; color: #666;">전문가들의 정치 분석과 보수 가치에 대한 깊이 있는 논의</p>
+                        
+                        <div class="post-card">
+                            <div class="post-meta">
+                                <span>김보수 교수 | 서울대 정치외교학부</span>
+                                <span>2025.07.19 14:30</span>
+                            </div>
+                            <h3 class="post-title">한국 보수 정치의 새로운 패러다임: 디지털 시대의 정치적 소통</h3>
+                            <p class="post-excerpt">
+                                현재 한국 정치는 디지털 혁명의 한가운데 있습니다. 보수 정치가 살아남기 위해서는 새로운 소통 방식을 받아들이고, 
+                                젊은 세대와의 접점을 확대해야 합니다. 전통적 가치를 지키면서도 현대적 방법론을 도입하는 것이 핵심입니다...
+                            </p>
+                            <div class="post-stats">
+                                <span>👍 247</span>
+                                <span>💬 89</span>
+                                <span>👁️ 1,523</span>
+                            </div>
+                        </div>
+
+                        <div class="post-card">
+                            <div class="post-meta">
+                                <span>박정치 박사 | 한국정치연구소</span>
+                                <span>2025.07.19 11:15</span>
+                            </div>
+                            <h3 class="post-title">경제 보수주의의 현대적 해석: 자유시장과 사회적 책임</h3>
+                            <p class="post-excerpt">
+                                자유시장 경제체제는 여전히 인류가 발견한 최고의 경제 시스템입니다. 하지만 21세기의 자유시장은 
+                                사회적 책임을 동반해야 합니다. 기업의 자유와 사회적 역할의 균형점을 찾는 것이 현대 보수주의의 과제입니다...
+                            </p>
+                            <div class="post-stats">
+                                <span>👍 156</span>
+                                <span>💬 42</span>
+                                <span>👁️ 892</span>
+                            </div>
+                        </div>
+
+                        <div class="comments-section">
+                            <h4>💬 댓글 참여</h4>
+                            <!-- Giscus 댓글 시스템 -->
+                            <script src="https://giscus.app/client.js"
+                                    data-repo="username/korean-conservative-platform"
+                                    data-repo-id="YOUR_REPO_ID"
+                                    data-category="General"
+                                    data-category-id="YOUR_CATEGORY_ID"
+                                    data-mapping="pathname"
+                                    data-strict="0"
+                                    data-reactions-enabled="1"
+                                    data-emit-metadata="0"
+                                    data-input-position="top"
+                                    data-theme="light"
+                                    data-lang="ko"
+                                    data-loading="lazy"
+                                    crossorigin="anonymous"
+                                    async>
+                            </script>
+                        </div>
+                    </div>
+
+                    <!-- 야매 보수 -->
+                    <div id="alternative" class="tab-content">
+                        <h2>🕵️ 야매 보수</h2>
+                        <p style="margin-bottom: 2rem; color: #666;">다양한 관점과 대안적 분석 (팩트체크 필요)</p>
+                        
+                        <div class="post-card">
+                            <div class="post-meta">
+                                <span>정보통 | 익명</span>
+                                <span>2025.07.19 16:45</span>
+                                <span style="background: #fff3cd; color: #856404; padding: 2px 8px; border-radius: 3px; font-size: 0.8rem;">⚠️ 팩트체크 필요</span>
+                            </div>
+                            <h3 class="post-title">주류 언론이 보도하지 않는 경제 지표의 진실</h3>
+                            <p class="post-excerpt">
+                                최근 발표된 경제성장률 수치 뒤에는 숨겨진 이야기가 있습니다. 공식 통계에서는 보이지 않는 
+                                구조적 문제들을 짚어보겠습니다. 다만 이는 개인적 분석이므로 추가 검증이 필요합니다...
+                            </p>
+                            <div class="post-stats">
+                                <span>👍 89</span>
+                                <span>💬 156</span>
+                                <span>👁️ 2,341</span>
+                                <span>🔍 팩트체크 진행중</span>
+                            </div>
+                        </div>
+
+                        <div class="post-card">
+                            <div class="post-meta">
+                                <span>현실주의자 | 인증됨</span>
+                                <span>2025.07.19 13:20</span>
+                            </div>
+                            <h3 class="post-title">정치권 내부 소식: 차기 총선 전략 분석</h3>
+                            <p class="post-excerpt">
+                                정치권 내부에서 들려오는 소식들을 종합해보면, 차기 총선은 지금까지와는 다른 양상을 보일 것 같습니다. 
+                                특히 2030 세대의 정치 참여 패턴 변화가 주목할 만합니다...
+                            </p>
+                            <div class="post-stats">
+                                <span>👍 203</span>
+                                <span>💬 87</span>
+                                <span>👁️ 1,456</span>
+                            </div>
+                        </div>
+
+                        <div class="youtube-embed">
+                            📺 관련 영상 분석
+                        </div>
+                    </div>
+
+                    <!-- 풍자/그림 -->
+                    <div id="satire" class="tab-content">
+                        <h2>😄 풍자/그림</h2>
+                        <p style="margin-bottom: 2rem; color: #666;">유머와 풍자로 보는 정치 상황</p>
+                        
+                        <div class="meme-gallery">
+                            <div class="meme-card">
+                                <div class="meme-image">🤔</div>
+                                <div class="meme-caption">
+                                    <strong>"보수를 보수하자"</strong><br>
+                                    - 정치 수리공의 하루 -
+                                </div>
+                            </div>
+                            
+                            <div class="meme-card">
+                                <div class="meme-image">😅</div>
+                                <div class="meme-caption">
+                                    <strong>민주당 VS 국민의힘</strong><br>
+                                    서로를 비판하느라 바쁜 정치권.jpg
+                                </div>
+                            </div>
+                            
+                            <div class="meme-card">
+                                <div class="meme-image">💪</div>
+                                <div class="meme-caption">
+                                    <strong>2030 보수의 등장</strong><br>
+                                    "이제 우리가 나설 차례"
+                                </div>
+                            </div>
+                            
+                            <div class="meme-card">
+                                <div class="meme-image">🔧</div>
+                                <div class="meme-caption">
+                                    <strong>정치 정비소</strong><br>
+                                    "낡은 이념 교체, 분열된 당 수리"
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="post-card" style="margin-top: 2rem;">
+                            <h4>📝 오늘의 정치 만평</h4>
+                            <div style="text-align: center; padding: 2rem; background: #f8f9fa; border-radius: 8px; margin: 1rem 0;">
+                                <div style="font-size: 4rem; margin-bottom: 1rem;">🏗️</div>
+                                <p><strong>"보수 재건축 현장"</strong></p>
+                                <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
+                                    "안전모 착용하고 차근차근 다시 지어봅시다"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 익명 게시판 -->
+                    <div id="anonymous" class="tab-content">
+                        <h2>💬 익명 게시판</h2>
+                        <p style="margin-bottom: 2rem; color: #666;">자유로운 토론과 의견 교환 (DC인사이드 스타일)</p>
+                        
+                        <div class="post-card anon-post">
+                            <div class="post-meta">
+                                <span class="anon-id">ㅇㅇ(123.456)</span>
+                                <span>2025.07.19 17:23:45</span>
+                                <span class="live-indicator">LIVE</span>
+                            </div>
+                            <h3 class="post-title">[속보] 정치권 또 시끄럽네 ㅋㅋㅋㅋ</h3>
+                            <p class="post-excerpt">
+                                아니 진짜 언제까지 이러고 있을거냐 ㅋㅋㅋㅋ<br>
+                                보수고 진보고 다 국민들 생각이나 좀 해라<br>
+                                제발 진짜 일 좀 제대로 해라!!!!!!
+                            </p>
+                            <div class="post-stats">
+                                <span>👍 45</span>
+                                <span>👎 12</span>
+                                <span>💬 128</span>
+                                <span>📱 모바일</span>
+                            </div>
+                        </div>
+
+                        <div class="post-card anon-post">
+                            <div class="post-meta">
+                                <span class="anon-id">ㅇㅇ(789.012)</span>
+                                <span>2025.07.19 16:55:12</span>
+                            </div>
+                            <h3 class="post-title">솔직히 보수 정치인들 각성해야 함</h3>
+                            <p class="post-excerpt">
+                                지금 상황 보면 답답하다 진짜<br>
+                                젊은 층 표심 잡으려면 진짜 변해야 함<br>
+                                옛날 방식으론 안 된다고 몇 번을 말해야 알아듣냐
+                            </p>
+                            <div class="post-stats">
+                                <span>👍 89</span>
+                                <span>👎 23</span>
+                                <span>💬 67</span>
+                            </div>
+                        </div>
+
+                        <div class="post-card anon-post">
+                            <div class="post-meta">
+                                <span class="anon-id">ㅇㅇ(345.678)</span>
+                                <span>2025.07.19 15:42:30</span>
+                            </div>
+                            <h3 class="post-title">이번에 새로운 플랫폼 만든다던데</h3>
+                            <p class="post-excerpt">
+                                GitHub으로 만든다더라 ㅋㅋㅋ<br>
+                                개발자들이 정치 하는 시대가 왔나 ㅋㅋㅋㅋ<br>
+                                근데 솔직히 기대된다... 기존 커뮤니티들 다 망했잖아
+                            </p>
+                            <div class="post-stats">
+                                <span>👍 156</span>
+                                <span>👎 8</span>
+                                <span>💬 234</span>
+                                <span>🔥 HOT</span>
+                            </div>
+                        </div>
+
+                        <div class="comment-form">
+                            <textarea placeholder="익명으로 자유롭게 의견을 남겨주세요. (욕설, 혐오 표현 금지)"></textarea>
+                            <button>익명 글쓰기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar">
+                    <div class="sidebar">
+                        <h3>🔥 실시간 인기</h3>
+                        <ul class="trending-list">
+                            <li><a href="#">보수 정치 개혁 방안</a></li>
+                            <li><a href="#">2030 세대 정치 참여</a></li>
+                            <li><a href="#">경제 정책 토론</a></li>
+                            <li><a href="#">디지털 정치 플랫폼</a></li>
+                            <li><a href="#">보수 가치 재정립</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar">
+                        <h3>📺 추천 영상</h3>
+                        <div class="youtube-embed" style="height: 150px; font-size: 1rem;">
+                            정치 분석 채널<br>
+                            클릭하여 시청
+                        </div>
+                    </div>
+
+                    <div class="sidebar">
+                        <h3>📊 커뮤니티 현황</h3>
+                        <ul style="list-style: none;">
+                            <li style="padding: 0.5rem 0;">📝 오늘 게시글: 47개</li>
+                            <li style="padding: 0.5rem 0;">💬 오늘 댓글: 1,205개</li>
+                            <li style="padding: 0.5rem 0;">👥 접속자: 2,341명</li>
+                            <li style="padding: 0.5rem 0;">🆕 신규 가입: 23명</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function showTab(tabName) {
+            // 모든 탭 숨기기
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // 모든 탭 버튼 비활성화
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+            
+            // 선택된 탭 보이기
+            document.getElementById(tabName).classList.add('active');
+            
+            // 선택된 탭 버튼 활성화
+            event.target.classList.add('active');
+        }
+
+        // 실시간 시간 업데이트
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleString('ko-KR');
+            // 여기서 실시간 시간을 업데이트할 수 있습니다
+        }
+
+        setInterval(updateTime, 1000);
+
+        // 모바일 반응형 처리
+        function handleResize() {
+            if (window.innerWidth <= 768) {
+                // 모바일에서 추가 조정 필요시
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+        
+        // 초기 로드시 실행
+        handleResize();
+    </script>
+</body>
+</html>

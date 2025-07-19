@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  korean-conservative-platform:
+    build: .
+    ports:
+      - "3000:80"
+    volumes:
+      - .:/usr/share/nginx/html
+    container_name: korean-conservative-platform
+    restart: unless-stopped
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+
+  # Jekyll 개발 서버 (선택사항)
+  jekyll:
+    image: jekyll/jekyll:4.2.0
+    command: jekyll serve --host 0.0.0.0 --incremental --watch --force_polling
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/srv/jekyll
+    environment:
+      - JEKYLL_ENV=development
+    container_name: jekyll-dev
